@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ProgrammingChallenge</string>
+    <string name="random_jokes">Random Jokes</string>
+    <string name="input_text">Input Text</string>
+    <string name="never_ending_list">Never Ending List</string>
+
 </resources>

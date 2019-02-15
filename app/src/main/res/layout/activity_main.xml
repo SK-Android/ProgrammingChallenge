@@ -5,15 +5,65 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!"
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingTop="5dp"
+            >
+
+    </android.support.v7.widget.Toolbar>
+    <FrameLayout
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.555"
+            app:layout_constraintVertical_bias="0.0"
+            android:padding="10dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+        <Button
+                android:id="@+id/random_jokes"
+                android:text="@string/random_jokes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@+id/toolbar"
+                android:padding="5dp"
+                android:layout_margin="10dp"
+                />
+        <Button
+                android:id="@+id/input_text"
+                android:text="@string/input_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@+id/random_jokes"
+                android:padding="5dp"
+                android:layout_margin="10dp"/>
+        <Button
+                android:id="@+id/never_ending_list"
+                android:text="@string/never_ending_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@+id/input_text"
+                android:padding="5dp"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+    </FrameLayout>
+
 
 </android.support.constraint.ConstraintLayout>

@@ -1,45 +1,42 @@
 package com.androidapp.mcs.programmingchallenge.api
 
-import android.util.Log
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+
+import dagger.Module
+import dagger.Provides
+import dagger.Reusable
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
-class ApiClient {
+@Module
+object ApiClient {
 
-    val WRITE_TIMEOUT = 60
-    val READ_TIMEOUT = 30
-    val CONNECT_TIMEOUT = 30
-
-    private val API_URL = "http://api.icndb.com/"
     //http://api.icndb.com/jokes/random
 
-    val gitApi: ApiInterface by lazy {buildRetrofitWithInterceptors().create(ApiInterface::class.java)}
+        @Provides
+        @Reusable
+        @JvmStatic
+        internal fun provideApi(retrofit: Retrofit): ApiInterface {         // Retrofit object is used to instantiate the service
+            return retrofit.create(ApiInterface::class.java)                //  and returns the Post service implementation.
+        }
 
-    private fun buildRetrofitWithInterceptors(): Retrofit {
 
-        val okBuilder = OkHttpClient.Builder()
-            .writeTimeout(WRITE_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .readTimeout(READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .connectTimeout(CONNECT_TIMEOUT.toLong(), TimeUnit.SECONDS)
 
-        val loggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message ->
-            Log.v(ApiClient::class.java.simpleName, message)
-        })
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        okBuilder.addInterceptor(loggingInterceptor)
 
-        val okHttpClient = okBuilder.build()
+        @Provides
+        @Reusable
+        @JvmStatic
+        internal fun provideRetrofitInterface(): Retrofit {                  //Provides the Retrofit object.
+            return Retrofit.Builder()
+                .baseUrl("http://api.icndb.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                .build()
+        }
 
-        val builder = Retrofit.Builder()
-            .client(okHttpClient)
-            .baseUrl(API_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 
-        return builder.build()
-    }
+
+
+
 }
