@@ -3,16 +3,17 @@ package com.androidapp.mcs.programmingchallenge
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.androidapp.mcs.programmingchallenge.model.Value
+import com.androidapp.mcs.programmingchallenge.MainActivity.Companion.BUNDLE_KEY
+import com.androidapp.mcs.programmingchallenge.model.RandomJokes
 import com.androidapp.mcs.programmingchallenge.viewmodel.BaseViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.internal.schedulers.IoScheduler
-import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
         val BUNDLE_KEY = "bundle_key"
+    }
+    init {
         var mViewModel: BaseViewModel? = null
     }
 
@@ -21,50 +22,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        initViewModel()
-        random_jokes.setOnClickListener {
-            val mViewModel = ViewModelProviders.of(this@MainActivity).get(BaseViewModel::class.java)
-            mViewModel.getData().getRandomJokes()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(IoScheduler())
-                .subscribe({
-                    showDialogBox(it)
+        val mViewModel = ViewModelProviders.of(this@MainActivity).get(BaseViewModel::class.java)
+        showDialogBox(mViewModel.getData())
 
-                })
-        }
-
-//        input_text.setOnClickListener {
-//            val mViewModel = ViewModelProviders.of(this@MainActivity).get(BaseViewModel::class.java)
-//            mViewModel.getData().getRandomJokes()
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(IoScheduler())
-//                .subscribe({
-//
-//                })
-//        }
-
-//        never_ending_list.setOnClickListener {
-//            val mViewModel = ViewModelProviders.of(this@MainActivity).get(BaseViewModel::class.java)
-//            mViewModel.getData().getRandomJokes()
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(IoScheduler())
-//                .subscribe({
-//
-//                })
-//        }
+      }
     }
 
-    private fun initViewModel() {
-        mViewModel = ViewModelProviders.of(this)
-            .get(MainViewModel)
-    }
 
-    private fun showDialogBox(it: Value) {
+    private fun showDialogBox(it: RandomJokes) {
         val simpleDialog = SimpleDialogFragment()
+        var fragmentManager = simpleDialog.fragmentManager
         val bundle = Bundle()
         bundle.putString(BUNDLE_KEY, it.toString())
         simpleDialog.arguments
-        simpleDialog.show(getSupportFragmentManager(),"Dialog Fragment")
+        simpleDialog.show(fragmentManager,"Dialog Fragment")
+
 
     }
 
@@ -79,6 +51,6 @@ class MainActivity : AppCompatActivity() {
 //            repos.adapter = adapter
 //        }
 
-    }
+
 
 
