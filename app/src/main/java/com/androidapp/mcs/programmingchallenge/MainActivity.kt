@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+
 import com.androidapp.mcs.programmingchallenge.MainActivity.Companion.BUNDLE_KEY
 import com.androidapp.mcs.programmingchallenge.model.RandomJokes
 import com.androidapp.mcs.programmingchallenge.viewmodel.BaseViewModel
@@ -19,9 +19,7 @@ class MainActivity : AppCompatActivity() {
         val BUNDLE_KEY = "bundle_key"
         lateinit var mRandomJokes:RandomJokes
     }
-    init {
-        var mViewModel: BaseViewModel? = null
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,15 +35,10 @@ class MainActivity : AppCompatActivity() {
                     mRandomJokes = it
                 }
                 {
-                   Log.i("MainActivity","Error Occured")
+                   Log.i("MainActivity","Error Occured $it")
                 }
 
             }
-
-
-
-
-
 
 
         random_jokes.setOnClickListener { showDialogBox(mRandomJokes.value.joke) }
