@@ -48,13 +48,11 @@ class ApiClient {
         return builder.build()
     }
 
-    fun getJokes():Observable<RandomJokes> {
-    return jokesApi.getRandomJokes()
+    fun getJokes(): Observable<RandomJokes> {
+        return jokesApi.getRandomJokes()
     }
 
 }
-
-
 
 
 /*
