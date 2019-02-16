@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showDialogBox(it: RandomJokes) {
         val simpleDialog = SimpleDialogFragment()
-        var fragmentManager = simpleDialog.fragmentManager
+        val fragmentManager = simpleDialog.fragmentManager
         val bundle = Bundle()
         bundle.putString(BUNDLE_KEY, it.toString())
         simpleDialog.arguments

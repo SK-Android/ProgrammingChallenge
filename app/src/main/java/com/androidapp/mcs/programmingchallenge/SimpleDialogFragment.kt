@@ -18,11 +18,11 @@ class SimpleDialogFragment() : DialogFragment() {
         val bundle = arguments
         builder.setMessage(bundle?.getString(BUNDLE_KEY))
         
-        builder.setNeutralButton("Dismiss",DialogInterface.OnClickListener { dialog, which ->  startBaseActivity()})
+        builder.setNeutralButton("Dismiss",DialogInterface.OnClickListener { dialog, which ->  returnToBaseActivity()})
         return builder.create()
     }
 
-    private fun startBaseActivity() {
+    private fun returnToBaseActivity() {
 
     }
 }
