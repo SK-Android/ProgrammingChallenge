@@ -3,56 +3,59 @@ package com.androidapp.mcs.programmingchallenge.api
 
 import android.util.Log
 import com.androidapp.mcs.programmingchallenge.model.RandomJokes
-import dagger.Module
-import dagger.Provides
-import dagger.Reusable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.internal.schedulers.IoScheduler
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 
 class ApiClient {
 
+    val WRITE_TIMEOUT = 60
+    val READ_TIMEOUT = 30
+    val CONNECT_TIMEOUT = 30
+
     //http://api.icndb.com/jokes/random
 
-    private val GIT_API_URL = "https://api.github.com/"
+    private val API_URL = "http://api.icndb.com/"
 
-companion object {
-    lateinit var jokes: RandomJokes
-}
     val jokesApi: ApiInterface by lazy { buildRetrofitWithInterceptors().create(ApiInterface::class.java) }
 
     private fun buildRetrofitWithInterceptors(): Retrofit {
 
+        val okBuilder = OkHttpClient.Builder()
+            .writeTimeout(WRITE_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .connectTimeout(CONNECT_TIMEOUT.toLong(), TimeUnit.SECONDS)
+
+        val loggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message ->
+            Log.v(ApiClient::class.java.simpleName, message)
+        })
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        okBuilder.addInterceptor(loggingInterceptor)
+
+        val okHttpClient = okBuilder.build()
+
         val builder = Retrofit.Builder()
-            .baseUrl(GIT_API_URL)
+            .client(okHttpClient)
+            .baseUrl(API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 
         return builder.build()
     }
 
-    fun loadData(): RandomJokes {
-
-            jokesApi.getRandomJokes()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(IoScheduler())
-            .subscribe({
-                jokes = it
-            })
-        return jokes
+    fun getJokes():Observable<RandomJokes> {
+    return jokesApi.getRandomJokes()
     }
 
-
-
 }
+
+
+
 
 /*
 @Module
