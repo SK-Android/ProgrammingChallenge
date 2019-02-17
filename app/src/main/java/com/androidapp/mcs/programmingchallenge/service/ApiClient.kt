@@ -18,6 +18,12 @@ class ApiClient {
     val READ_TIMEOUT = 30
     val CONNECT_TIMEOUT = 30
 
+companion object {
+     var firstName:String = ""
+     var lastName:String = ""
+}
+
+
     //http://api.icndb.com/jokes/random
 
     private val API_URL = "http://api.icndb.com/"
@@ -50,6 +56,9 @@ class ApiClient {
 
     fun getJokes(): Observable<RandomJokes> {
         return jokesApi.getRandomJokes()
+    }
+    fun getCustomJokes(firstName:String, lastName:String): Observable<RandomJokes> {
+        return jokesApi.getCustomJokes(firstName,lastName)
     }
 
 }

@@ -8,8 +8,11 @@ import io.reactivex.Observable
 
 class BaseViewModel(application: Application) : AndroidViewModel(application) {
 
-    fun getJokesFromVM(): Observable<RandomJokes> {
+    fun getRandomJokesFromVM(): Observable<RandomJokes> {
         return ApiClient().getJokes()
     }
 
+    fun getCustomJokesFromVM( firstName:String, lastName:String): Observable<RandomJokes> {
+        return ApiClient().getCustomJokes(firstName,lastName)
+    }
 }

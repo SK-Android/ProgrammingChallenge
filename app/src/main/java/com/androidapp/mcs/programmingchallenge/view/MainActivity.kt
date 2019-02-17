@@ -14,7 +14,7 @@ import io.reactivex.internal.schedulers.IoScheduler
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         val mViewModel = ViewModelProviders.of(this@MainActivity).get(BaseViewModel::class.java)
 
-        mViewModel.getJokesFromVM()
+        mViewModel.getRandomJokesFromVM()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(IoScheduler())
             .subscribe({
@@ -36,14 +36,14 @@ class MainActivity : AppCompatActivity() {
         text_input.setOnClickListener {
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.text_input, TextInputFragment.newInstance(), "Text_Input_Fragment")
+                .add(R.id.container, TextInputFragment.newInstance(), "Text_Input_Fragment")
                 .commit()
 
         }
     }
 
 
-    private fun showDialogBox(it2: RandomJokes) {
+     fun showDialogBox(it2: RandomJokes) {
 
         val mJokes = it2.value.joke
         random_jokes.setOnClickListener {
@@ -63,14 +63,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-//    private fun showDialogBox(it: String?) {
-//        val simpleDialog = SimpleDialogFragment()
-//        val fragmentManager = simpleDialog.fragmentManager
-//        val bundle = Bundle()
-//        bundle.putString(BUNDLE_KEY, it.toString())
-//        simpleDialog.arguments
-//        simpleDialog.show(fragmentManager,"Dialog Fragment")
-//    }
 
 
 
