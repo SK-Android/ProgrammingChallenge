@@ -31,12 +31,19 @@ class MainActivity : AppCompatActivity() {
                 {
                     Log.i("MainActivity", "Error Occured")
                 })
+
+
+        text_input.setOnClickListener {
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.text_input, TextInputFragment.newInstance(), "Text_Input_Fragment")
+                .commit()
+
+        }
     }
 
 
     private fun showDialogBox(it2: RandomJokes) {
-
-        //Toast.makeText(applicationContext, "Recieved", Toast.LENGTH_SHORT)
 
         val mJokes = it2.value.joke
         random_jokes.setOnClickListener {

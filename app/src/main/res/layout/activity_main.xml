@@ -48,8 +48,8 @@
                 android:layout_margin="10dp"
                 />
         <Button
-                android:id="@+id/input_text"
-                android:text="@string/input_text"
+                android:id="@+id/text_input"
+                android:text="Text Input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@+id/random_jokes"

@@ -1,4 +1,4 @@
-package com.androidapp.mcs.programmingchallenge.api
+package com.androidapp.mcs.programmingchallenge.service
 
 import com.androidapp.mcs.programmingchallenge.model.RandomJokes
 

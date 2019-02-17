@@ -1,4 +1,4 @@
-package com.androidapp.mcs.programmingchallenge.api
+package com.androidapp.mcs.programmingchallenge.service
 
 
 import android.util.Log
