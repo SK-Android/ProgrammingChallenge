@@ -22,7 +22,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener  {
         random_jokes.setOnClickListener(this)
         text_input.setOnClickListener(this)
         never_ending_list.setOnClickListener(this)
+
     }
+
+
     override fun onClick(v: View?) {
         when(v?.id){
 
@@ -75,10 +78,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener  {
         builder.setNeutralButton("Dismiss") { dialogInterface, i ->
             Toast.makeText(applicationContext, "Dismiss", Toast.LENGTH_SHORT).show()
         }
-// Make the alert dialog using builder
         val dialog: AlertDialog = builder.create()
-
-// Display the alert dialog on app interface
         dialog.show()
 
     }

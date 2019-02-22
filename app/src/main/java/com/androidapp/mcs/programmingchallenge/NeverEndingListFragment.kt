@@ -19,7 +19,7 @@ import java.util.*
 class NeverEndingListFragment : Fragment() {
 
 
-    lateinit var jokesList:Value
+    lateinit var jokesArray:Value
 
     companion object {
         fun newInstance():TextInputFragment{
@@ -47,7 +47,7 @@ class NeverEndingListFragment : Fragment() {
             .subscribeOn(Schedulers.io())
             .subscribe({
                 //onNext
-                jokesList = it
+                jokesArray = it
                 Log.i("NeverEndingListFragment","$it")
 
             }, {
@@ -57,7 +57,7 @@ class NeverEndingListFragment : Fragment() {
                 //onCompleted
                 Log.i("NeverEndingListFragment", "Completed")
 
-                val arrayList = ArrayList<Value>(Arrays.asList(jokesList))
+                val arrayList = ArrayList<Value>(Arrays.asList(jokesArray))
 
                 recycler_view.adapter  = NeverEndingListAdapter(arrayList)
             })
