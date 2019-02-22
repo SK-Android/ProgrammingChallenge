@@ -38,8 +38,11 @@ class MainActivity : AppCompatActivity()  {
             })
 
 
-        random_jokes.setOnClickListener {
-
+        text_input.setOnClickListener {
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.container,TextInputFragment.newInstance(),"Text_InputFragment")
+                .commit()
         }
 
     }
