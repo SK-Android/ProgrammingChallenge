@@ -1,4 +1,4 @@
-package com.androidapp.mcs.programmingchallenge.view
+package com.androidapp.mcs.programmingchallenge
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
@@ -8,9 +8,10 @@ import android.util.Log
 import android.widget.Toast
 import com.androidapp.mcs.programmingchallenge.R
 import com.androidapp.mcs.programmingchallenge.model.RandomJokes
-import com.androidapp.mcs.programmingchallenge.viewmodel.BaseViewModel
+import com.androidapp.mcs.programmingchallenge.service.ApiClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.schedulers.IoScheduler
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -20,32 +21,32 @@ class MainActivity : AppCompatActivity()  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val mViewModel = ViewModelProviders.of(this@MainActivity).get(BaseViewModel::class.java)
-
-        mViewModel.getRandomJokesFromVM()
+        val api = ApiClient().jokesApi
+        api.getJokesObservable()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(IoScheduler())
+            .subscribeOn(Schedulers.io())
             .subscribe({
-                showDialogBox(it)
-            },
-                {
-                    Log.i("MainActivity", "Error Occured")
-                })
+                //onNext
+                showRandomJokesDialogBox(it)
+
+            }, {
+                //OnError
+                Log.e("MainActivity", it.message)
+            }, {
+                //onCompleted
+                Log.i("MainActivity", "Completed")
+            })
 
 
-        text_input.setOnClickListener {
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.container, TextInputFragment.newInstance(), "Text_Input_Fragment")
-                .commit()
+        random_jokes.setOnClickListener {
 
         }
+
     }
 
+    private fun showRandomJokesDialogBox(it: RandomJokes?) {
 
-     fun showDialogBox(it2: RandomJokes) {
-
-        val mJokes = it2.value.joke
+        val mJokes = it?.value?.joke
         random_jokes.setOnClickListener {
             val builder = AlertDialog.Builder(this@MainActivity)
             builder.setTitle("Random Jokes")
@@ -53,13 +54,11 @@ class MainActivity : AppCompatActivity()  {
             builder.setNeutralButton("Dismiss") { dialogInterface, i ->
                 Toast.makeText(applicationContext, "Dismiss", Toast.LENGTH_SHORT).show()
             }
-            // Finally, make the alert dialog using builder
+            // Make the alert dialog using builder
             val dialog: AlertDialog = builder.create()
 
             // Display the alert dialog on app interface
             dialog.show()
-
-
         }
     }
 }
