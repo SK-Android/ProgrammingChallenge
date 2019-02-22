@@ -8,7 +8,6 @@
              android:padding="20dp"
              android:id="@+id/fragment_container">
 
-
     <android.support.constraint.ConstraintLayout
 
             android:orientation="vertical"

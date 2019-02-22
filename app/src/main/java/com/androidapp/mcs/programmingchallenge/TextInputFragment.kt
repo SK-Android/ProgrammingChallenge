@@ -84,6 +84,8 @@ class TextInputFragment : Fragment() {
             builder.setMessage(it)
             builder.setNeutralButton("Dismiss") { dialogInterface, i ->
                 Toast.makeText(mContext, "Dismiss", Toast.LENGTH_SHORT).show()
+                closefragment();
+
             }
             // Make the alert dialog using builder
             val dialog: AlertDialog = builder.create()
@@ -91,7 +93,11 @@ class TextInputFragment : Fragment() {
             // Display the alert dialog on app interface
             dialog.show()
         }
+
+    private fun closefragment() {
+        activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit();
     }
+}
 
 
 
