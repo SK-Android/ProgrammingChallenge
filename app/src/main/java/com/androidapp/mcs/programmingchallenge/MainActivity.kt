@@ -7,13 +7,18 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.androidapp.mcs.programmingchallenge.model.RandomJokes
+import com.androidapp.mcs.programmingchallenge.model.Value
 import com.androidapp.mcs.programmingchallenge.service.ApiClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONArray
 
 
 class MainActivity : AppCompatActivity(), View.OnClickListener  {
+
+    lateinit var valueList:List<Value>
+    lateinit var randomJoke:RandomJokes
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +64,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener  {
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     //onNext
-                    val mJokes = it?.value?.joke
-                    showRandomJokesDialogBox(mJokes)
+                    val temp = it.value
+                    showRandomJokesDialogBox(temp.joke)
 
                 }, {
                     //OnError

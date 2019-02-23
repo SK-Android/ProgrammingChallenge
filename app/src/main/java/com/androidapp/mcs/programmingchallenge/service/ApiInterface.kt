@@ -1,5 +1,6 @@
 package com.androidapp.mcs.programmingchallenge.service
 
+import com.androidapp.mcs.programmingchallenge.model.JokeList
 import com.androidapp.mcs.programmingchallenge.model.RandomJokes
 import com.androidapp.mcs.programmingchallenge.model.Value
 
@@ -16,5 +17,5 @@ interface ApiInterface {
     fun getCustomJokes(@Query("firstName") firstName: String, @Query("lastName") lastName: String): Observable<RandomJokes>
 
     @GET("jokes/random/20")
-    fun getJokesList():Observable<Value>
+    fun getJokesList():Observable<JokeList>
 }

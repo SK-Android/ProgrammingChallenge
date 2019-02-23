@@ -6,9 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.androidapp.mcs.programmingchallenge.model.Value
-import java.util.ArrayList
 
-class NeverEndingListAdapter(private val jokes: ArrayList<Value>): RecyclerView.Adapter<NeverEndingListAdapter.CustomViewHolder>() {
+class NeverEndingListAdapter(val jokes: List<Value>?): RecyclerView.Adapter<NeverEndingListAdapter.CustomViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CustomViewHolder {
         val layoutInflater = LayoutInflater.from(p0.context)
@@ -17,13 +16,12 @@ class NeverEndingListAdapter(private val jokes: ArrayList<Value>): RecyclerView.
     }
 
     override fun getItemCount(): Int {
-        return jokes.size
+        return jokes!!.size
     }
 
     override fun onBindViewHolder(p0: CustomViewHolder, p1: Int) {
 
-        val joke = jokes[p1]
-        p0.mJokes.text = joke.joke
+        p0.mJokes.text = jokes?.get(p1)?.joke.toString()
 
     }
 

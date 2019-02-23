@@ -13,5 +13,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:textSize="18sp"/>
 </android.support.constraint.ConstraintLayout>

@@ -6,5 +6,5 @@ import java.util.*
 data class Value(
     @SerializedName("id") val id: Integer,
     @SerializedName("joke") val joke: String,
-    @SerializedName("categories") val categories: List<Objects>? = null
+    @SerializedName("categories") val categories: List<String>? = null
 )

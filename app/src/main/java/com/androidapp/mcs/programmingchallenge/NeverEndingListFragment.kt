@@ -13,29 +13,27 @@ import com.androidapp.mcs.programmingchallenge.service.ApiClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_never_ending_list.*
-import java.util.*
 
 
 class NeverEndingListFragment : Fragment() {
 
-
-    lateinit var jokesArray:Value
+    var jokesList:List<Value>? = null
 
     companion object {
-        fun newInstance():TextInputFragment{
-            return TextInputFragment()
+        fun newInstance():NeverEndingListFragment{
+            return NeverEndingListFragment()
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_never_ending_list, container, false)
-        recycler_view.layoutManager = LinearLayoutManager(this@NeverEndingListFragment.context)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        recycler_view.layoutManager = LinearLayoutManager(this@NeverEndingListFragment.context)
         getJokesList()
     }
 
@@ -47,8 +45,8 @@ class NeverEndingListFragment : Fragment() {
             .subscribeOn(Schedulers.io())
             .subscribe({
                 //onNext
-                jokesArray = it
-                Log.i("NeverEndingListFragment","$it")
+                    jokesList = it.value
+                Log.i("NeverEndingListFragment","${jokesList?.size}")
 
             }, {
                 //OnError
@@ -57,9 +55,7 @@ class NeverEndingListFragment : Fragment() {
                 //onCompleted
                 Log.i("NeverEndingListFragment", "Completed")
 
-                val arrayList = ArrayList<Value>(Arrays.asList(jokesArray))
-
-                recycler_view.adapter  = NeverEndingListAdapter(arrayList)
+                recycler_view.adapter  = NeverEndingListAdapter(jokesList)
             })
     }
 
