@@ -1,6 +1,7 @@
 package com.androidapp.mcs.programmingchallenge
 
 
+import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -39,20 +40,26 @@ class TextInputFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         submit.setOnClickListener {
-            getFirstLastName()
+            name = editText.text.toString().trim() //editText.text doesn't return a string. It returns an object called editable
+
+            if(name != null && !name.isEmpty() ){
+                getFirstLastName()
+
+            }else if (name == " " || name == ""){
+                Toast.makeText(mContext,"Enter valid first name and last name",Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(mContext,"Enter valid first name and last name",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun getFirstLastName() {
-        name = editText.text.toString()              //editText.text doesn't return a string. It returns an object called editable
 
-        firstName = name.substring(0, name.indexOf(""))
-        lastName = name.substring(name.indexOf("")+1)
-        getJokes(firstName, lastName)
-
-
-
-        Log.i("TextInputFragment","First name:"+firstName+"Last name:"+lastName)
+            firstName = name.substring(0, name.indexOf(" "))
+            lastName = name.substring(name.indexOf(" ")+1)
+            getJokes(firstName, lastName)
+            Log.i("TextInputFragment","First name:"+firstName+"Last name:"+lastName)
     }
 
     private fun getJokes(firstName: String, lastName: String) {

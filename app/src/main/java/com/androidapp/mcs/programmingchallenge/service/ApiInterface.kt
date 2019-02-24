@@ -10,12 +10,12 @@ import retrofit2.http.Query
 
 interface ApiInterface {
 
-    @GET("jokes/random")
+    @GET("jokes/random?escape=javascript")
     fun getJokesObservable():Observable<RandomJokes>
 
-    @GET("jokes/random")
+    @GET("jokes/random?escape=javascript")
     fun getCustomJokes(@Query("firstName") firstName: String, @Query("lastName") lastName: String): Observable<RandomJokes>
 
-    @GET("jokes/random/20")
+    @GET("jokes/random/20?escape=javascript")
     fun getJokesList():Observable<JokeList>
 }
