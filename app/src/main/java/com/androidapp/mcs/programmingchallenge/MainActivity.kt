@@ -38,11 +38,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener  {
                 getRandomJokes()
             }
             R.id.text_input ->{
-                supportFragmentManager
-                    .beginTransaction()
-                    .add(R.id.container,TextInputFragment.newInstance(),"Text_Input_Fragment")
-                    .addToBackStack(null)
-                    .commit()
+//                supportFragmentManager
+//                    .beginTransaction()
+//                    .add(R.id.container,TextInputFragment.newInstance(),"Text_Input_Fragment")
+//                    .addToBackStack(null)
+//                    .commit()
+
+                val textInputDialog = TextInputDialog()
+                textInputDialog.show(supportFragmentManager,"TEXT_INPUT_DIALOG")
             }
             R.id.never_ending_list ->{
                 supportFragmentManager
@@ -83,7 +86,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener  {
         builder.setTitle("Random Jokes")
         builder.setMessage(it)
         builder.setNeutralButton("Dismiss") { dialogInterface, i ->
-            Toast.makeText(applicationContext, "Dismiss", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Dismissed", Toast.LENGTH_SHORT).show()
         }
         val dialog: AlertDialog = builder.create()
         dialog.show()
