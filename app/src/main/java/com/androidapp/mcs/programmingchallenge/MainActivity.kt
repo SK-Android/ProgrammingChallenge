@@ -41,12 +41,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener  {
                 supportFragmentManager
                     .beginTransaction()
                     .add(R.id.container,TextInputFragment.newInstance(),"Text_Input_Fragment")
+                    .addToBackStack(null)
                     .commit()
             }
             R.id.never_ending_list ->{
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.container,NeverEndingListFragment.newInstance(),"NeverEnding_List_Fragment")
+                    .addToBackStack(null)
                     .commit()
             }
             else->{}

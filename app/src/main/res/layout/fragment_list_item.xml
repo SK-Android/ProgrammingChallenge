@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:orientation="vertical">
 
     <TextView
             android:id="@+id/never_ending_list_joke"
@@ -16,5 +17,11 @@
             android:padding="10dp"
             android:textSize="18sp"/>
 
+    <View android:layout_width="match_parent"
+          android:layout_height="0.7dp"
+          android:layout_marginTop="5dp"
+          android:layout_marginBottom="5dp"
+          android:background="@color/colorPrimaryDark"/>
 
-</android.support.constraint.ConstraintLayout>
+
+</LinearLayout>
