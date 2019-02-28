@@ -14,41 +14,58 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_text_input.*
 
-class TextInputDialog: DialogFragment() {
+class TextInputDialog : DialogFragment() {
 
 
-    lateinit var name:String
-    lateinit var firstName:String
-    lateinit var lastName:String
+    lateinit var name: String
+    lateinit var firstName: String
+    lateinit var lastName: String
     lateinit var mContext: Context
     var jokes: String = ""
+    var exclude: StringBuilder = StringBuilder("")
+    lateinit var dialog: AlertDialog
+
 
     companion object {
-        fun newInstance():TextInputFragment{
-            return TextInputFragment()
-        }
+        const val CUSTOM_JOKE: String = "Custom_Joke"
     }
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         val view = inflater.inflate(R.layout.fragment_text_input, container, false)
         mContext = view.context
+        arguments?.let {
+            exclude.append(it.getString("NoExplicit"))
+        }
+
         return view
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null && savedInstanceState.containsKey(CUSTOM_JOKE)) {
+            val joke = savedInstanceState.getString(CUSTOM_JOKE)
+            showCustomJokesDialogBox(joke)
+
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        submit.setOnClickListener {
-            name = editText.text.toString().trim() //editText.text doesn't return a string. It returns an object called editable
 
-            if(name != null && !name.isEmpty() ){
+        submit.setOnClickListener {
+            name = editText.text.toString()
+                .trim() //editText.text doesn't return a string. It returns an object called editable
+
+            if (name != null && !name.isEmpty()) {
                 getFirstLastName()
 
-            }else if (name == " " || name == ""){
-                Toast.makeText(mContext,"Enter valid first name and last name",Toast.LENGTH_SHORT).show()
-            }
-            else{
-                Toast.makeText(mContext,"Enter valid first name and last name", Toast.LENGTH_SHORT).show()
+            } else if (name == " " || name == "") {
+                Toast.makeText(mContext, "Enter valid first name and last name", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(mContext, "Enter valid first name and last name", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -57,20 +74,20 @@ class TextInputDialog: DialogFragment() {
     private fun getFirstLastName() {
 
         firstName = name.substring(0, name.indexOf(" "))
-        lastName = name.substring(name.indexOf(" ")+1)
+        lastName = name.substring(name.indexOf(" ") + 1)
         getJokes(firstName, lastName)
-        Log.i("TextInputFragment","First name:"+firstName+"Last name:"+lastName)
+        Log.i("TextInputFragment", "First name:" + firstName + "Last name:" + lastName)
     }
 
     private fun getJokes(firstName: String, lastName: String) {
 
         val api = ApiClient().jokesApi
-        api.getCustomJokes(firstName,lastName)
+        api.getCustomJokes(firstName, lastName, exclude.toString())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
                 //onNext
-                Log.i("TextInputFragment","$it")
+                Log.i("TextInputFragment", "$it")
                 jokes = it.value.joke
             }, {
                 //OnError
@@ -85,24 +102,29 @@ class TextInputDialog: DialogFragment() {
 
     private fun showCustomJokesDialogBox(jokes: String) {
 
-        Log.i("CustomJoke",""+jokes)
+        Log.i("CustomJoke", "" + jokes)
         val builder = AlertDialog.Builder(mContext)
         builder.setTitle("Custom Jokes")
         builder.setMessage(jokes)
         builder.setNeutralButton("Dismiss") { dialogInterface, i ->
             Toast.makeText(mContext, "Dismiss", Toast.LENGTH_SHORT).show()
-            closefragment();
-           // dismiss()
-
         }
         // Make the alert dialog using builder
-        val dialog: AlertDialog = builder.create()
+        dialog = builder.create()
 
         // Display the alert dialog on app interface
         dialog.show()
     }
 
-    private fun closefragment() {
-        activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit();
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(CUSTOM_JOKE, jokes)
+        super.onSaveInstanceState(outState)
     }
+
+    override fun onDestroy() {
+        dialog.dismiss()
+        super.onDestroy()
+    }
+
 }

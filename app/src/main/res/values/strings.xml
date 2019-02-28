@@ -11,5 +11,7 @@
     <string name="enter_first_name_and_last_name">Enter first name and last name:</string>
     <string name="enter_first_name_and_last_names">Enter first name and last name</string>
     <string name="jokes">Jokes</string>
+    <string name="no_explicit_content">No Explicit Content</string>
+    <string name="text_input">Text Input</string>
 
 </resources>
