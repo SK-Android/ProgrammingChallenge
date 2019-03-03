@@ -8,5 +8,7 @@ import kotlinx.android.parcel.Parcelize
 data class Value(
     @SerializedName("id") val id: Integer,
     @SerializedName("joke") val joke: String,
-    @SerializedName("categories") val categories: List<String>? = null
+    @SerializedName("categories") val Categories: List<String>? = null
+
 ):Parcelable
+

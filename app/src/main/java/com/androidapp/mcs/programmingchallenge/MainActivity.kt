@@ -10,16 +10,13 @@ import com.androidapp.mcs.programmingchallenge.service.ApiClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    var exclude: StringBuilder = StringBuilder("")
-    var mRandomJoke: String? = ""
 
-    companion object {
-        const val RANDOM_JOKE: String = "Random_Joke"
-    }
+    var exclude: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +25,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         random_jokes.setOnClickListener(this)
         text_input.setOnClickListener(this)
         never_ending_list.setOnClickListener(this)
-
-        if (savedInstanceState != null && savedInstanceState.containsKey(RANDOM_JOKE)) {
-            mRandomJoke = savedInstanceState.getString(RANDOM_JOKE)
-            showRandomJokesDialogBox(mRandomJoke)
-        }
-
     }
 
     override fun onClick(v: View?) {
@@ -43,89 +34,47 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.checkbox -> {
                 checkbox.setOnClickListener {
                     if (checkbox.isChecked) {
-                        exclude.append("explicit")
+                        exclude.add("explicit")
                     }
                 }
             }
 
             //Random Jokes Button
             R.id.random_jokes -> {
-                getRandomJokes()
+                val randomJokeDialog = RandomJokeDialog()
+                val bundle = Bundle()
+                randomJokeDialog.arguments.apply { bundle.putString("EXCLUDE", exclude.toString()) }
+                randomJokeDialog.show(supportFragmentManager, "RANDOM_JOKE_DIALOG")
             }
 
             //Custom Jokes Text Input Butoon
             R.id.text_input -> {
-
                 val textInputDialog = TextInputDialog()
                 val bundle = Bundle()
-                textInputDialog.arguments.apply { bundle.putString("NoExplicit", exclude.toString()) }
+                textInputDialog.arguments.apply { bundle.putStringArrayList("NoExplicit", exclude) }
                 textInputDialog.show(supportFragmentManager, "TEXT_INPUT_DIALOG")
-
-//                supportFragmentManager
-//                    .beginTransaction()
-//                    .add(R.id.container,TextInputFragment.newInstance(),"Text_Input_Fragment")
-//                    .addToBackStack(null)
-//                    .commit()
-
             }
 
             //Never Ending Jokes List
             R.id.never_ending_list -> {
                 val bundle = Bundle()
                 val neverEndingListFragment = NeverEndingListFragment()
-                neverEndingListFragment.arguments.apply { bundle.putString("NoExplicit", exclude.toString()) }
+                neverEndingListFragment.arguments.apply { bundle.putStringArrayList("NoExplicit", exclude) }
                 supportFragmentManager
                     .beginTransaction()
                     .add(R.id.container, neverEndingListFragment, "NeverEnding_List_Fragment")
                     .addToBackStack(null)
                     .commit()
             }
+
             else -> {
             }
 
         }
     }
-
-    private fun getRandomJokes() {
-
-        val api = ApiClient().jokesApi
-        api.getJokesObservable(exclude.toString())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                //onNext
-                mRandomJoke = it.value.joke
-                showRandomJokesDialogBox(mRandomJoke)
-
-            }, {
-                //OnError
-                Log.e("MainActivity", it.message)
-            }, {
-                //onCompleted
-                Log.i("MainActivity", "Completed")
-            })
-    }
-
-    private fun showRandomJokesDialogBox(it: String?) {
-        val builder = AlertDialog.Builder(this@MainActivity)
-        builder.setTitle("Random Jokes")
-        builder.setMessage(it)
-        builder.setNeutralButton("Dismiss") { dialogInterface, i ->
-            Toast.makeText(applicationContext, "Dismissed", Toast.LENGTH_SHORT).show()
-            if (dialogInterface != null) {
-                dialogInterface.dismiss();
-            }
-        }
-        val dialog: AlertDialog = builder.create()
-            dialog.show()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putString(RANDOM_JOKE, mRandomJoke)
-        super.onSaveInstanceState(outState)
-    }
-
-
 }
+
+
+
 
 

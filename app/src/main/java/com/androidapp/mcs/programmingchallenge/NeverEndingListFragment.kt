@@ -22,7 +22,8 @@ class NeverEndingListFragment : Fragment() {
 
     var jokesList: List<Value>? = null
     lateinit var manager: LinearLayoutManager
-    val exclude: StringBuilder = StringBuilder("")
+    var exclude: ArrayList<String> = ArrayList<String>()
+
 
     //Endless Scrolling
     var isScrolling = false
@@ -39,7 +40,7 @@ class NeverEndingListFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_never_ending_list, container, false)
         arguments?.let {
-            exclude.append(it.getString("NoExplicit"))
+            exclude = it.getStringArrayList("NoExplicit")
         }
         return view
     }
@@ -95,7 +96,7 @@ class NeverEndingListFragment : Fragment() {
     private fun getJokesList() {
 
         val api = ApiClient().jokesApi
-        api.getJokesList(exclude.toString())
+        api.getJokesList(exclude)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({

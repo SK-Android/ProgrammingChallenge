@@ -7,8 +7,7 @@
              tools:context=".TextInputFragment"
             android:layout_marginTop="20dp"
              android:layout_marginBottom="20dp"
-             android:id="@+id/fragment_container"
-             android:background="@color/bgColor">
+             android:id="@+id/fragment_container">
 
     <android.support.constraint.ConstraintLayout
 
@@ -17,7 +16,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
-            android:padding="5dp">
+            android:padding="10dp">
 
 
         <EditText

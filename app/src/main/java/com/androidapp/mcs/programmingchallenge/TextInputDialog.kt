@@ -13,6 +13,7 @@ import com.androidapp.mcs.programmingchallenge.service.ApiClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_text_input.*
+import java.util.ArrayList
 
 class TextInputDialog : DialogFragment() {
 
@@ -22,7 +23,7 @@ class TextInputDialog : DialogFragment() {
     lateinit var lastName: String
     lateinit var mContext: Context
     var jokes: String = ""
-    var exclude: StringBuilder = StringBuilder("")
+    var exclude:ArrayList<String> = ArrayList<String>()
     lateinit var dialog: AlertDialog
 
 
@@ -30,15 +31,13 @@ class TextInputDialog : DialogFragment() {
         const val CUSTOM_JOKE: String = "Custom_Joke"
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_text_input, container, false)
         mContext = view.context
         arguments?.let {
-            exclude.append(it.getString("NoExplicit"))
+            exclude = it.getStringArrayList("NoExplicit")
         }
-
         return view
     }
 
@@ -47,19 +46,16 @@ class TextInputDialog : DialogFragment() {
         if (savedInstanceState != null && savedInstanceState.containsKey(CUSTOM_JOKE)) {
             val joke = savedInstanceState.getString(CUSTOM_JOKE)
             showCustomJokesDialogBox(joke)
-
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         submit.setOnClickListener {
-            name = editText.text.toString()
-                .trim() //editText.text doesn't return a string. It returns an object called editable
+            name = editText.text.toString().trim() //editText.text doesn't return a string. It returns an object called editable
 
-            if (name != null && !name.isEmpty()) {
+            if (!name.isEmpty()) {
                 getFirstLastName()
 
             } else if (name == " " || name == "") {
@@ -68,7 +64,6 @@ class TextInputDialog : DialogFragment() {
                 Toast.makeText(mContext, "Enter valid first name and last name", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     private fun getFirstLastName() {
@@ -80,9 +75,8 @@ class TextInputDialog : DialogFragment() {
     }
 
     private fun getJokes(firstName: String, lastName: String) {
-
         val api = ApiClient().jokesApi
-        api.getCustomJokes(firstName, lastName, exclude.toString())
+        api.getCustomJokes(firstName, lastName, exclude)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
@@ -97,11 +91,9 @@ class TextInputDialog : DialogFragment() {
                 Log.i("TextInputFragment", "Completed")
                 showCustomJokesDialogBox(jokes)
             })
-
     }
 
     private fun showCustomJokesDialogBox(jokes: String) {
-
         Log.i("CustomJoke", "" + jokes)
         val builder = AlertDialog.Builder(mContext)
         builder.setTitle("Custom Jokes")

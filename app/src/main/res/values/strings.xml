@@ -13,5 +13,7 @@
     <string name="jokes">Jokes</string>
     <string name="no_explicit_content">No Explicit Content</string>
     <string name="text_input">Text Input</string>
+    <string name="random_joke">Random Joke</string>
+    <string name="dismiss">Dismiss</string>
 
 </resources>
