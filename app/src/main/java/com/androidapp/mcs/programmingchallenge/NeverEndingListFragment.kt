@@ -47,11 +47,7 @@ class NeverEndingListFragment : Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        if (savedInstanceState != null && savedInstanceState.containsKey(JOKES_LIST)) {
-            val jokeArrayList: ArrayList<Value>? = savedInstanceState.getParcelableArrayList(JOKES_LIST)
-            val list: List<Value>? = jokeArrayList
-            displayList(list)
-        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,8 +84,14 @@ class NeverEndingListFragment : Fragment() {
             }
         })
         //END
+        if (savedInstanceState != null && savedInstanceState.containsKey(JOKES_LIST)) {
+            val jokeArrayList: ArrayList<Value>? = savedInstanceState.getParcelableArrayList(JOKES_LIST)
+            val list: List<Value>? = jokeArrayList
+            displayList(list)
+        }else{
+            getJokesList()
+        }
 
-        getJokesList()
     }
 
 
