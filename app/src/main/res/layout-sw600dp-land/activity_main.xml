@@ -18,8 +18,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp">
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
         <CheckBox
                 android:id="@+id/checkbox"
@@ -62,6 +62,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/backgroundColor">
     </FrameLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>

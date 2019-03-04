@@ -101,9 +101,11 @@ class TextInputDialog : DialogFragment() {
         builder.setNeutralButton("Dismiss") { dialogInterface, i ->
             Toast.makeText(mContext, "Dismiss", Toast.LENGTH_SHORT).show()
         }
+        val width = (resources.displayMetrics.widthPixels * 20).toInt()
+        val height = (resources.displayMetrics.heightPixels * 20).toInt()
         // Make the alert dialog using builder
         dialog = builder.create()
-
+        dialog.window.setLayout(width,height)
         // Display the alert dialog on app interface
         dialog.show()
     }
