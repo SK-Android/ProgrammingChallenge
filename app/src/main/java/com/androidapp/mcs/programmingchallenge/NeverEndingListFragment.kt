@@ -22,7 +22,7 @@ class NeverEndingListFragment : Fragment() {
 
     var jokesList: List<Value>? = null
     lateinit var manager: LinearLayoutManager
-    var exclude: ArrayList<String> = ArrayList<String>()
+    var exclude: ArrayList<String> = ArrayList()
 
 
     //Endless Scrolling
